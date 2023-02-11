@@ -1,25 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
+import tw, { styled, css } from "twin.macro"
 
 function App() {
+  const schoolLevel = "H"
+
+  let startFlat
+  let startSpread
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+      {(startFlat = Date.now())}
+      <Wrapper schoolLevel={schoolLevel}>Hello World</Wrapper>
+      {console.log("Flat: ", Date.now() - startFlat)}
+      {(startSpread = Date.now())}
+      <Wrapper2 schoolLevel={schoolLevel}>Hello World</Wrapper2>
+      {console.log("Spread: ", Date.now() - startSpread)}
+    </>
+  )
 }
 
-export default App;
+export default App
+
+const Wrapper = styled.div(({ schoolLevel }) =>
+  [
+    tw`w-screen h-screen`,
+    {
+      E: [
+        tw`bg-red-500`,
+        css`
+          color: white;
+        `,
+      ],
+      M: tw`bg-blue-600`,
+      H: tw`bg-green-700`,
+    }[schoolLevel],
+  ].flat()
+)
+
+const Wrapper2 = styled.div(({ schoolLevel }) => [
+  tw`w-screen h-screen`,
+  ...{
+    E: [
+      tw`bg-red-500`,
+      css`
+        color: white;
+      `,
+    ],
+    M: [tw`bg-blue-600`],
+    H: [tw`bg-green-700`],
+  }[schoolLevel],
+])
